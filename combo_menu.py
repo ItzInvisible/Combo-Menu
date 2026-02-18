@@ -3,16 +3,16 @@ print("Here are our combo meals:")
 # print("1. Classic Combo: Sandwich, Fries, and a Drink")
 
 # Mention Variable of the person of user
-chicken = 5.25, 
-beef = 6.25,
-tofu = 5.75,
-small_drink = 1.00,
-medium_drink = 1.75,
-large_drink = 2.25,
+chicken = 5.25, # Price of Chicken Sandwich
+beef = 6.25,    # Price of Beef Sandwich
+tofu = 5.75,      # Price of Tofu Sandwich
+small_drink = 1.00, # Price of Small Drink
+medium_drink = 1.75, # Price of Medium Drink
+large_drink = 2.25, # Price of Large Drink
 
 # Ask for Sandwich Choice
 def sandwich_choice():
-    input("Please Choose a Sandwich Option:") # SANDWICH OPTIONS #
+    print("Please Choose a Sandwich Option:") # SANDWICH OPTIONS #
     print("Here are the Options") # SANDWICH OPTIONS #
     print("1. Chicken") # CHICKEN OPTION SELECTION #
     print("2. Beef") # BEEF OPTION SELECTION #
@@ -32,9 +32,9 @@ print("#------------------------------#") # SANDWICH CHOICES END #
 
 print("Press the number of the Sandwich to Confirm your Order")
 
-if sandwich_option == 1:           # ← no leading indent
-    print("You have Confirmed Chicken")  # ← indented inside the if
-elif sandwich_option == 2:
+if sandwich_option == "1":           # Confirmation of Chicken Option #
+    print("You have Confirmed Chicken") 
+elif sandwich_option == "2":          # Confirmation of Beef Option #
     print("You have Confirmed Beef")
-elif sandwich_option == 3:
+elif sandwich_option == "3":      # Confirmation of Tofu Option #
     print("You have Confirmed Tofu")
