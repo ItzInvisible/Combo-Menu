@@ -1,3 +1,6 @@
+import time # IMPORT TIME MODULE FOR DELAYS #
+
+
 # CMD SANDWICH SHOP #
 print("Welcome to CMD Sandwich Shop!") # WELCOME MESSAGE #
 print("Here are our combo meals:") # COMBO MEALS HEADER #
@@ -8,9 +11,10 @@ tofu = 5.75         # PRICE OF TOFU SANDWICH #
 small_drink = 1.00  # PRICE OF SMALL DRINK #
 medium_drink = 1.75 # PRICE OF MEDIUM DRINK #
 large_drink = 2.25  # PRICE OF LARGE DRINK #
-small_fries = 1.00 # PRICE OF SMALL FRIES #
+small_fries = 1.00  # PRICE OF SMALL FRIES #
 medium_fries = 1.50 # PRICE OF MEDIUM FRIES #
-large_fries = 2.00 # PRICE OF LARGE FRIES #
+large_fries = 2.00  # PRICE OF LARGE FRIES #
+ketchup_packet = 0.25 # PRICE OF KETCHUP PACKET #
 
 def drink_choice(): # DRINK CHOICE FUNCTION #
     print("Please Choose a Drink Option:") # DRINK OPTIONS HEADER #
@@ -32,13 +36,12 @@ def drink_choice(): # DRINK CHOICE FUNCTION #
     else: # IF INVALID OPTION #
         print("Invalid option, Please try again") # INVALID OPTION MESSAGE #
         return drink_choice() # RESTART FUNCTION AND RETURN RESULT #
-    if confirm.lower() == "yes": # CHECK IF USER CONFIRMED #
+    if confirm.lower() in ("yes", "y"): # CHECK IF USER CONFIRMED #
         price = drink_prices[choice] # GET PRICE FROM DICTIONARY #
         print(f"You have Ordered a {choice} Drink!") # PRINT THEIR CHOICE #
-        print(f"Moving on to Fries...") # MOVING ON MESSAGE #
+        print(f"Drink Cost: ${price:.2f}") # PRINT DRINK COST #
         return price # RETURN DRINK PRICE #
-        drink_choice = fries_choice() # CALL FRIES CHOICE AND STORE RETURNED PRICE #
-    elif confirm.lower() == "no": # CHECK IF USER DENIED #
+    elif confirm.lower() in ("no", "n"): # CHECK IF USER DENIED #
         print("Restarting Drink Selection...") # RESTART MESSAGE #
         return drink_choice() # RESTART FUNCTION AND RETURN RESULT #
 
@@ -62,20 +65,26 @@ def sandwich_choice(): # SANDWICH CHOICE FUNCTION #
     else: # IF INVALID OPTION #
         print("Invalid option, Please try again") # INVALID OPTION MESSAGE #
         return sandwich_choice() # RESTART FUNCTION AND RETURN RESULT #
-    if confirm.lower() == "yes": # CHECK IF USER CONFIRMED #
+    if confirm.lower() in ("yes", "y"): # CHECK IF USER CONFIRMED #
         price = sandwich_prices[choice] # GET PRICE FROM DICTIONARY #
         print(f"You have Ordered a {choice} Sandwich!") # PRINT THEIR CHOICE #
         print(f"Sandwich Cost: ${price:.2f}") # PRINT SANDWICH COST #
+        print("#------------------------------#") # DIVIDER #
+        print(f"Total so far: ${price:.2f}") # PRINT RUNNING TOTAL #
+        print("#------------------------------#") # DIVIDER #
         print("Moving on to Drinks...") # MOVING ON MESSAGE #
         drink_price = drink_choice() # CALL DRINK CHOICE AND STORE RETURNED PRICE #
+        print("#------------------------------#") # DIVIDER #
+        print(f"Total so far: ${price + drink_price:.2f}") # PRINT RUNNING TOTAL AFTER DRINK #
+        print("#------------------------------#") # DIVIDER #
         print("Moving on to Fries...") # MOVING ON MESSAGE #
         fries_choice(price, drink_price) # CALL FRIES CHOICE WITH SANDWICH AND DRINK PRICES #
         return # RETURN AFTER ALL CHOICES COMPLETE #
-    elif confirm.lower() == "no": # CHECK IF USER DENIED #
+    elif confirm.lower() in ("no", "n"): # CHECK IF USER DENIED #
         print("Restarting Sandwich Selection...") # RESTART MESSAGE #
         return sandwich_choice() # RESTART FUNCTION AND RETURN RESULT #
 
-def fries_choice(sandwich_price, drink_price): # FRIES CHOICE FUNCTION, ACCEPTS PREVIOUS PRICES #
+def fries_choice(sandwich_price, drink_price): # FRIES CHOICE FUNCTION #
     print("Please Choose a Fries Option:") # FRIES OPTIONS HEADER #
     print("Here are the Options") # OPTIONS HEADER #
     print("1. Small") # SMALL FRIES OPTION #
@@ -94,44 +103,78 @@ def fries_choice(sandwich_price, drink_price): # FRIES CHOICE FUNCTION, ACCEPTS 
         choice = "Large" # STORE LARGE CHOICE #
     else: # IF INVALID OPTION #
         print("Invalid option, Please try again") # INVALID OPTION MESSAGE #
-        return fries_choice(sandwich_price, drink_price) # RESTART FUNCTION AND RETURN RESULT #
-    if confirm.lower() == "yes": # CHECK IF USER CONFIRMED #
+        return fries_choice(sandwich_price, drink_price) # RESTART FUNCTION #
+    if confirm.lower() in ("yes", "y"): # CHECK IF USER CONFIRMED #
         price = fries_prices[choice] # GET PRICE FROM DICTIONARY #
         print(f"You have Ordered {choice} Fries!") # PRINT THEIR CHOICE #
-        if fries_option == "1": # CHECK IF SMALL SELECTED #
-            print("You have Ordered Small Fries, Would you like to supersize your Fries? (Yes/No): ") # SUPERSIZE OPTION #
-            supersize_option = input() # USER INPUT #
-            if supersize_option.lower() == "yes": # CHECK IF USER WANTS TO SUPERSIZE #
+        if fries_option == "1": # CHECK IF SMALL SELECTED FOR SUPERSIZE #
+            supersize_option = input("Would you like to Supersize your Fries to Large? (Yes/No): ") # SUPERSIZE OPTION #
+            if supersize_option.lower() in ("yes", "y"): # CHECK IF USER WANTS TO SUPERSIZE #
                 price = large_fries # UPDATE PRICE TO LARGE #
                 print("Your Fries have been Supersized to Large!") # SUPERSIZE CONFIRM #
-                print("#------------------------------#") # DIVIDER #
-                total = sandwich_price + drink_price + price # RECALCULATE TOTAL COST #
-                print(f"Sandwich Cost: ${sandwich_price:.2f}") # PRINT SANDWICH COST #
-                print(f"Drink Cost: ${drink_price:.2f}") # PRINT DRINK COST #
-                print(f"Fries Cost: ${price:.2f}") # PRINT UPDATED FRIES COST #
-                print(f"Total Cost: ${total:.2f}") # PRINT UPDATED TOTAL COST #
-                return total # RETURN UPDATED TOTAL COST #
-            elif supersize_option.lower() == "no": # CHECK IF USER DOES NOT WANT TO SUPERSIZE #
-                print("Your Fries will remain Small.") # NO SUPERSIZE CONFIRM #
-                print("#------------------------------#") # DIVIDER #
-                total = sandwich_price + drink_price + price # CALCULATE TOTAL COST #
-                print(f"Sandwich Cost: ${sandwich_price:.2f}") # PRINT SANDWICH COST #
-                print(f"Drink Cost: ${drink_price:.2f}") # PRINT DRINK COST #
-                print(f"Fries Cost: ${price:.2f}") # PRINT FRIES COST #
-                print(f"Total Cost: ${total:.2f}") # PRINT TOTAL COST #
-                return total # RETURN TOTAL COST #
         print(f"Fries Cost: ${price:.2f}") # PRINT FRIES COST #
+        total = sandwich_price + drink_price + price # CALCULATE TOTAL BEFORE DISCOUNT #
+        combo_discount = 0 # DEFAULT COMBO DISCOUNT TO 0 #
+        if sandwich_price and drink_price and price: # CHECK IF ALL THREE ITEMS ORDERED #
+            combo_discount = 1.00 # SET COMBO DISCOUNT TO $1.00 #
+            total = total - combo_discount # APPLY COMBO DISCOUNT TO TOTAL #
+            print("Combo Discount Applied! You Saved $1.00!") # COMBO DISCOUNT MESSAGE #
         print("#------------------------------#") # DIVIDER #
-        total = sandwich_price + drink_price + price # CALCULATE TOTAL COST #
-        print(f"Sandwich Cost: ${sandwich_price:.2f}") # PRINT SANDWICH COST #
-        print(f"Drink Cost: ${drink_price:.2f}") # PRINT DRINK COST #
-        print(f"Fries Cost: ${price:.2f}") # PRINT FRIES COST #
-        print(f"Total Cost: ${total:.2f}") # PRINT TOTAL COST #
-        return total # RETURN TOTAL COST #
-    elif confirm.lower() == "no": # CHECK IF USER DENIED #
+        print(f"Total so far: ${total:.2f}") # PRINT RUNNING TOTAL AFTER FRIES #
+        print("#------------------------------#") # DIVIDER #
+        print("Moving on to Sauce Packets...") # MOVING ON MESSAGE #
+        packets_total = packets_choice(total, sandwich_price, drink_price, price, combo_discount) # CALL PACKETS CHOICE #
+        return packets_total # RETURN FINAL TOTAL #
+    elif confirm.lower() in ("no", "n"): # CHECK IF USER DENIED #
         print("Restarting Fries Selection...") # RESTART MESSAGE #
-        return fries_choice(sandwich_price, drink_price) # RESTART FUNCTION AND RETURN RESULT #
+        return fries_choice(sandwich_price, drink_price) # RESTART FUNCTION #
+
+def packets_choice(total, sandwich_price, drink_price, fries_price, combo_discount): # SAUCE PACKETS CHOICE FUNCTION #
+    print("#------------------------------#") # DIVIDER #
+    sauce_option = input("Would you like to add Sauce Packets to your order? (Yes/No): ") # USER INPUT #
+    if sauce_option.lower() in ("yes", "y"): # CHECK IF USER WANTS SAUCE PACKETS #
+        print("How many Ketchup Packets would you like to add? (1-100): ") # NUMBER OF PACKETS OPTION #
+        while True: # LOOP UNTIL VALID INPUT #
+            try: # TRY TO CONVERT INPUT TO INTEGER #
+                num_packets = int(input()) # USER INPUT #
+                if 1 <= num_packets <= 100: # CHECK IF NUMBER IS BETWEEN 1 AND 100 #
+                    ketchup_cost = ketchup_packet * num_packets # CALCULATE KETCHUP COST #
+                    new_total = total + ketchup_cost # ADD KETCHUP COST TO TOTAL #
+                    print(f"{num_packets} Ketchup Packets have been added to your order!") # CONFIRMATION #
+                    print(f"Ketchup Packets Cost: ${ketchup_cost:.2f}") # PRINT KETCHUP COST #
+                    print("#------------------------------#") # DIVIDER #
+                    print(f"Sandwich Cost:        ${sandwich_price:.2f}") # PRINT SANDWICH COST #
+                    print(f"Drink Cost:           ${drink_price:.2f}") # PRINT DRINK COST #
+                    print(f"Fries Cost:           ${fries_price:.2f}") # PRINT FRIES COST #
+                    print(f"Ketchup Packets Cost: ${ketchup_cost:.2f}") # PRINT KETCHUP COST #
+                    if combo_discount > 0: # CHECK IF COMBO DISCOUNT APPLIED #
+                        print(f"Combo Discount:       -${combo_discount:.2f}") # PRINT COMBO DISCOUNT #
+                    print("#------------------------------#") # DIVIDER #
+                    print(f"Total Cost:           ${new_total:.2f}") # PRINT FINAL TOTAL #
+                    return new_total # RETURN UPDATED TOTAL #
+                else: # IF NUMBER OUT OF RANGE #
+                    print("Invalid number, Please enter a number between 1 and 100: ") # INVALID NUMBER #
+            except ValueError: # IF INPUT IS NOT A NUMBER #
+                print("Invalid input, Please enter a valid number: ") # INVALID INPUT MESSAGE #
+    elif sauce_option.lower() in ("no", "n"): # CHECK IF USER DOES NOT WANT SAUCE PACKETS #
+        print("No Sauce Packets will be added to your order.") # NO SAUCE PACKETS CONFIRMATION #
+        print("#------------------------------#") # DIVIDER #
+        print(f"Sandwich Cost: ${sandwich_price:.2f}") # PRINT SANDWICH COST #
+        print(f"Drink Cost:    ${drink_price:.2f}") # PRINT DRINK COST #
+        print(f"Fries Cost:    ${fries_price:.2f}") # PRINT FRIES COST #
+        if combo_discount > 0: # CHECK IF COMBO DISCOUNT APPLIED #
+            print(f"Combo Discount: -${combo_discount:.2f}") # PRINT COMBO DISCOUNT #
+        print("#------------------------------#") # DIVIDER #
+        print(f"Total Cost:    ${total:.2f}") # PRINT TOTAL #
+        return total # RETURN UNCHANGED TOTAL #
+    else: # IF INVALID OPTION #
+        print("Invalid option, Please try again") # INVALID OPTION MESSAGE #
+        return packets_choice(total, sandwich_price, drink_price, fries_price, combo_discount) # RESTART FUNCTION #
 
 print("#------------------------------#") # DIVIDER #
-sandwich_choice() # CALL SANDWICH CHOICE FUNCTION # ## END OF NOW 02/18 ###
+sandwich_choice() # CALL SANDWICH CHOICE FUNCTION #
 print("#------------------------------#") # DIVIDER #
+print("Thank you for ordering at CMD Sandwich Shop! Your order will be ready shortly.") # THANK YOU MESSAGE #
+
+time.sleep(5) # WAIT 5 SECONDS BEFORE ENDING PROGRAM #
+print("Your order is ready! Please pick it up at the counter. Have a great day!") # ORDER READY MESSAGE #
